@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CP2077Trainer. Cyberpunk 2077 2.5 overlay for Windows. Infinite health, eddies, fly</title>
+  <meta name="description" content="Open source Cyberpunk 2077 2.5 overlay for Windows 10/11. Infinite health stamina, eddies, items, fly, stats editor. ImGui DirectX 11, CMake. Single player offline.">
+  <meta name="keywords" content="Cyberpunk 2077 2.5, Cyberpunk overlay, Cyberpunk 2077 windows, infinite health, infinite eddies, infinite items, fly, stats editor, imgui, cmake, cpp, cd projekt, night city, single player, оверлей киберпанк 2077 2.5, бесконечное здоровье, бесконечные едди, полёт, редактор прогресса">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://magicdaclip52.github.io/cyberpunk-2077-trainer/">
+  <link rel="alternate" hreflang="ru" href="https://magicdaclip52.github.io/cyberpunk-2077-trainer/?lang=ru">
+  <link rel="alternate" hreflang="en" href="https://magicdaclip52.github.io/cyberpunk-2077-trainer/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://magicdaclip52.github.io/cyberpunk-2077-trainer/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://magicdaclip52.github.io/cyberpunk-2077-trainer/">
+  <meta property="og:title" content="CP2077Trainer. Cyberpunk 2077 2.5 overlay for Windows">
+  <meta property="og:description" content="Cyberpunk 2077 2.5 overlay: infinite health, eddies, items, fly, stats. Open source ImGui. Single player.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <script>
+    (function () {
+      var q = "";
+      try { q = new URLSearchParams(location.search).get("lang") || ""; } catch (e) {}
+      var saved = "";
+      try { saved = localStorage.getItem("cp-lang") || ""; } catch (e) {}
+      var nav = "";
+      if (navigator.languages && navigator.languages.length) nav = String(navigator.languages[0]);
+      else nav = String(navigator.language || navigator.userLanguage || "en");
+      nav = nav.toLowerCase();
+      var lang = "en";
+      if (q === "ru" || q === "en") lang = q;
+      else if (saved === "ru" || saved === "en") lang = saved;
+      else if (/^(ru|uk|be|kk|ky|mo|tg)\b/.test(nav)) lang = "ru";
+      document.documentElement.lang = lang;
+      document.documentElement.setAttribute("data-lang", lang);
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #07080a;
+      --ink: #e8f0d8;
+      --muted: #8c9378;
+      --gold: #fcee0a;
+      --line: #2a3320;
+      --card: #10140c;
+      --btn: #fcee0a;
+      --btn-ink: #101408;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(1200px 500px at 50% -80px, #1a220c 0%, var(--bg) 55%);
+      color: var(--ink);
+      font: 17px/1.55 "Segoe UI", "PT Sans", "Helvetica Neue", sans-serif;
+    }
+    .wrap { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 64px; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 16px;
+    }
+    .brand {
+      font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: var(--gold);
+    }
+    .lang { display: flex; gap: 6px; }
+    .lang button {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font: 12px/1 "Segoe UI", sans-serif;
+      letter-spacing: 0.08em;
+    }
+    html[data-lang="ru"] .lang [data-set-lang="ru"],
+    html[data-lang="en"] .lang [data-set-lang="en"] {
+      color: var(--btn-ink);
+      background: var(--btn);
+      border-color: var(--btn);
+    }
+    article.lang-block { display: none; }
+    html[data-lang="ru"] article.lang-ru,
+    html[data-lang="en"] article.lang-en { display: block; }
+    h1 {
+      font-family: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 0 0 14px;
+    }
+    .lede { color: var(--muted); margin: 0 0 22px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 32px; }
+    a.btn {
+      display: inline-block;
+      background: var(--btn);
+      color: var(--btn-ink);
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 650;
+    }
+    a.btn.ghost {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+    a.btn:hover { filter: brightness(1.06); }
+    h2 {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 28px 0 10px;
+    }
+    ul { margin: 0; padding-left: 18px; }
+    li { margin: 0 0 6px; }
+    p { margin: 0 0 12px; }
+    code, pre {
+      font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+      font-size: 14px;
+    }
+    pre {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      overflow: auto;
+      border-radius: 6px;
+    }
+    .tree {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      white-space: pre;
+      overflow: auto;
+    }
+    .tags { color: var(--muted); font-size: 14px; }
+    footer { margin-top: 36px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 14px; }
+    a { color: var(--gold); }
+    footer .ru, footer .en { display: none; }
+    html[data-lang="ru"] footer .ru { display: inline; }
+    html[data-lang="en"] footer .en { display: inline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">CP2077Trainer</div>
+      <nav class="lang" aria-label="Language">
+        <button type="button" data-set-lang="ru">RU</button>
+        <button type="button" data-set-lang="en">EN</button>
+      </nav>
+    </header>
+
+    <article class="lang-block lang-ru" lang="ru">
+      <h1>Оверлей Cyberpunk 2077 2.5 для Windows. Здоровье, едди, полёт</h1>
+      <p class="lede">Открытый внешний оверлей для Cyberpunk 2077 App Ver. 2.5 (Cyberpunk2077.exe) под Windows 10 и Windows 11 x64. Окно ImGui и DirectX 11: бесконечное здоровье и выносливость, едди, предметы, редактор прогресса, скорость игры, полёт. Не DLL внутрь игры, а внешний процесс и патчи памяти. Только одиночка и оффлайн.</p>
+      <p>Ищешь оверлей на Киберпанк 2077 2.5: бесконечное здоровье, бесконечные едди, бесконечные предметы, полёт, множитель урона, Street Cred, перки, супер-прыжок. Исходники открыты, можно проверить в браузере.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/Magicdaclip52/cyberpunk-2077-trainer/releases/latest">Скачать CP2077Trainer.zip</a>
+        <a class="btn ghost" href="https://github.com/Magicdaclip52/cyberpunk-2077-trainer">Исходники на GitHub</a>
+      </div>
+
+      <h2>Что умеет</h2>
+      <ul>
+        <li>Выживание: infinite health, infinite stamina, stealth, нет урона от падения, бесконечный кислород</li>
+        <li>Бой: one shot, множитель урона, множитель защиты, без перезарядки, супер-точность, без отдачи, гранаты и лечение без отката, Сандевистан</li>
+        <li>Предметы: бесконечные предметы и патроны, компоненты, квикхаки, вес, бесплатные покупки, мгновенный крафт</li>
+        <li>Мир: RAM, Breach, время суток, скорость игры, супер-прыжок, полёт, розыск NCPD, транспорт</li>
+        <li>Прогресс: едди, XP, Street Cred, очки атрибутов и перков, уровень, Headhunter Netrunner Shinobi Solo Engineer</li>
+      </ul>
+
+      <h2>Как запустить</h2>
+      <p>Сначала Cyberpunk 2077 2.5, загрузи сейв в мире, потом этот exe от администратора. Только оффлайн и одиночка.</p>
+      <p>Полёт: включи fly mode, затем Shift + стрелки. Прогресс пишется в сохранение, сделай бэкап.</p>
+
+      <h2>Windows 10</h2>
+      <p>На Windows 10 и ниже обычная привязка к процессу игры часто не проходит. Тогда докачиваются системные <code>loadperf.dll</code> и <code>unlodctr.exe</code> (компоненты Microsoft). Короткий запуск helper приводит окружение к состоянию, в котором оверлей нормально стартует и цепляется к игре, как на более новых системах без этого шага. На Windows 11 этот шаг обычно не нужен. Файлы лежат в Releases рядом с CP2077Trainer.zip, если хочешь положить их рядом с exe вручную.</p>
+
+      <h2>Скачать и проверить код</h2>
+      <p>Готовый билд: Releases, файл CP2077Trainer.zip. Исходники лежат в репозитории, папка src. Можно открыть в браузере и пройтись по файлам без сборки.</p>
+      <p>Где смотреть логику: <code>src/game</code> attach, <code>src/memory</code> чтение и запись, <code>src/features</code> список функций, <code>src/ui</code> интерфейс, <code>src/hooks</code> патчи, <code>src/signatures</code> AOB.</p>
+      <div class="tree">src/app          вход, цикл окна
+src/game         поиск Cyberpunk2077.exe
+src/memory       read write, сигнатуры
+src/features     каталог функций
+src/hooks        хуки
+src/ui           ImGui DX11
+src/worker       тик в фоне
+resources        иконка, манифест</div>
+
+      <h2>Сборка</h2>
+      <p>Нужны Windows, Visual Studio 2022, CMake 3.24+.</p>
+      <pre>cmake -S . -B build
+cmake --build build --config Release</pre>
+      <p>Выход: <code>build\bin\Release\CP2077Trainer.exe</code>. Либо <code>build.bat</code>. Подтягивается Dear ImGui и nlohmann json.</p>
+
+      <h2>VirusTotal</h2>
+      <p>Программа открывает процесс Cyberpunk2077.exe и пишет в память. Антивирусы часто пишут PUA. Так бывает у unsigned оверлеев. Код открыт, трояна в исходниках нет.</p>
+
+      <h2>Важно</h2>
+      <p>Только оффлайн / одиночка. В онлайне бан. Пользуешься на свой риск. Исходники as is, для себя и для проверки модератором.</p>
+
+      <h2>Поиск</h2>
+      <p class="tags">оверлей киберпанк 2077 2.5, киберпанк windows 10 11, бесконечное здоровье, бесконечные едди, бесконечные предметы, полёт, редактор прогресса, скорость игры, оффлайн одиночка, внешний оверлей, imgui directx 11, cmake cpp, cd projekt night city, исходники открыты.</p>
+    </article>
+
+    <article class="lang-block lang-en" lang="en">
+      <h1>Cyberpunk 2077 2.5 overlay for Windows. Infinite health, eddies, fly</h1>
+      <p class="lede">Open source external overlay for Cyberpunk 2077 App Ver. 2.5 on Windows 10 and Windows 11 x64. ImGui + DirectX 11 window. Infinite health and stamina, eddies, items, stats editor, game speed, fly. Not a DLL injected into the game. External process and memory patches. Single player / offline.</p>
+      <p>Looking for a Cyberpunk 2077 2.5 overlay: infinite health, infinite eddies, infinite items, fly, damage multiplier, Street Cred, perks, super jump. Source is public, you can read it in the browser.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/Magicdaclip52/cyberpunk-2077-trainer/releases/latest">Download CP2077Trainer.zip</a>
+        <a class="btn ghost" href="https://github.com/Magicdaclip52/cyberpunk-2077-trainer">Source on GitHub</a>
+      </div>
+
+      <h2>Features</h2>
+      <ul>
+        <li>Survival: infinite health, infinite stamina, stealth, no fall damage, infinite oxygen</li>
+        <li>Combat: one shot, damage multiplier, defense multiplier, no reload, super accuracy, no recoil, grenades and healing no cooldown, Sandevistan</li>
+        <li>Items: infinite items and ammo, components, quickhacks, carry weight, free shopping, instant crafting</li>
+        <li>World: RAM, Breach timer, time of day, game speed, super jump, fly, NCPD wanted, vehicles</li>
+        <li>Progress: eddies, XP, Street Cred, attribute and perk points, level, Headhunter Netrunner Shinobi Solo Engineer</li>
+      </ul>
+
+      <h2>How to run</h2>
+      <p>Start Cyberpunk 2077 2.5 first, load a save in the world, then this exe as administrator. Single player / offline only. Hotkeys in the window.</p>
+      <p>Fly: enable fly mode, then Shift + arrow keys. Progress writes into the save, make a backup.</p>
+
+      <h2>Windows 10</h2>
+      <p>On Windows 10 and older, attaching to Cyberpunk2077.exe is often less reliable than on Windows 11. In that case the overlay can fetch two extra Microsoft helpers: <code>loadperf.dll</code> and <code>unlodctr.exe</code>. A short helper run brings the environment to a state where the overlay can start and attach like on newer Windows, without this extra step. Windows 11 usually skips it. The same files are in Releases next to CP2077Trainer.zip if you want them beside the exe.</p>
+
+      <h2>Download and review source</h2>
+      <p>Ready build: Releases, file CP2077Trainer.zip. Full source is in the repo, folder src. Open it in the browser and read the files without building.</p>
+      <p>Where the logic lives: <code>src/game</code> attach, <code>src/memory</code> read write, <code>src/features</code> feature list, <code>src/ui</code> UI, <code>src/hooks</code> patches, <code>src/signatures</code> AOB.</p>
+      <div class="tree">src/app          entry, window loop
+src/game         find Cyberpunk2077.exe
+src/memory       read write, signatures
+src/features     catalog
+src/hooks        hooks
+src/ui           ImGui DX11
+src/worker       background tick
+resources        icon, manifest</div>
+
+      <h2>Build</h2>
+      <p>Windows, Visual Studio 2022, CMake 3.24+.</p>
+      <pre>cmake -S . -B build
+cmake --build build --config Release</pre>
+      <p>Output: <code>build\bin\Release\CP2077Trainer.exe</code>. Or <code>build.bat</code>. Pulls Dear ImGui and nlohmann json.</p>
+
+      <h2>VirusTotal</h2>
+      <p>The app opens Cyberpunk2077.exe and writes memory. Antivirus often flags PUA. That is common for unsigned overlays. The source is public.</p>
+
+      <h2>Notes</h2>
+      <p>Offline / single player only. Online play can get you banned. Use at your own risk. Source as is, for personal use and for moderator review.</p>
+
+      <h2>Search</h2>
+      <p class="tags">Cyberpunk 2077 2.5 overlay, Cyberpunk overlay windows 10 11, infinite health, infinite eddies, infinite items, fly, stats editor, game speed, single player offline, external overlay, imgui directx 11, cmake cpp, cd projekt night city, open source.</p>
+    </article>
+
+    <footer>
+      <span class="ru">Репозиторий:</span>
+      <span class="en">Repository:</span>
+      <a href="https://github.com/Magicdaclip52/cyberpunk-2077-trainer">Magicdaclip52/cyberpunk-2077-trainer</a>
+    </footer>
+  </div>
+  <noscript>
+    <style>
+      article.lang-block { display: block !important; }
+      footer .ru, footer .en { display: inline !important; }
+    </style>
+  </noscript>
+  <script>
+    (function () {
+      var titles = {
+        ru: "CP2077Trainer. Оверлей Cyberpunk 2077 2.5 для Windows. Здоровье, едди, полёт",
+        en: "CP2077Trainer. Cyberpunk 2077 2.5 overlay for Windows. Infinite health, eddies, fly"
+      };
+      var descriptions = {
+        ru: "Оверлей Cyberpunk 2077 2.5 для Windows 10/11. Бесконечное здоровье, едди, предметы, полёт, прогресс. ImGui, исходники открыты. Только одиночка.",
+        en: "Cyberpunk 2077 2.5 overlay for Windows 10/11. Infinite health, eddies, items, fly, stats. ImGui, open source. Single player."
+      };
+      function apply(lang) {
+        document.documentElement.lang = lang;
+        document.documentElement.setAttribute("data-lang", lang);
+        document.title = titles[lang];
+        var meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute("content", descriptions[lang]);
+        try { localStorage.setItem("cp-lang", lang); } catch (e) {}
+        try {
+          var url = new URL(location.href);
+          url.searchParams.set("lang", lang);
+          history.replaceState(null, "", url);
+        } catch (e) {}
+      }
+      apply(document.documentElement.getAttribute("data-lang") || "en");
+      document.querySelectorAll("[data-set-lang]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          apply(btn.getAttribute("data-set-lang"));
+        });
+      });
+    })();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CP2077Trainer",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Windows",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "url": "https://magicdaclip52.github.io/cyberpunk-2077-trainer/",
+    "downloadUrl": "https://github.com/Magicdaclip52/cyberpunk-2077-trainer/releases/latest",
+    "description": "Cyberpunk 2077 2.5 overlay for Windows. Infinite health, eddies, items, fly, stats editor. Open source ImGui. Single player."
+  }
+  </script>
+</body>
+</html>

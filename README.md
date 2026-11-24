@@ -4,9 +4,36 @@
 
 Auto language page (RU/EN from the browser): https://magicdaclip52.github.io/cyberpunk-2077-trainer/
 
+[![VGTimes Cyberpunk 2077 2.5](docs/images/btn-vgtimes.svg)](https://vgtimes.com/games/cyberpunk-2077/files/100729-trainer-56-2-5.html)
+[![itch.io Cyberpunk 2077 2.5](docs/images/btn-itch.svg)](https://mortis22.itch.io/cyberpunk-2077-trainer-2-5)
+
 Open source overlay for Cyberpunk 2077 App Ver. 2.5 (Cyberpunk2077.exe) on Windows 10/11 x64. ImGui + DirectX 11. Infinite health, stamina, eddies, items, fly, stats editor, game speed. External process, memory patches, no DLL inject. Single player / offline.
 
 Открытый оверлей Cyberpunk 2077 2.5 для Windows. Бесконечное здоровье, выносливость, едди, предметы, полёт, редактор прогресса, скорость игры. Отдельное окно, хоткеи, исходники в репозитории. Только одиночка и оффлайн.
+
+## Video
+
+[![CP2077Trainer Cyberpunk 2077 2.5](https://img.youtube.com/vi/MHTkwKrU8SE/maxresdefault.jpg)](https://www.youtube.com/watch?v=MHTkwKrU8SE)
+
+https://www.youtube.com/watch?v=MHTkwKrU8SE
+
+## Screenshots / скриншоты
+
+Survival / выживание:
+
+![Survival functions](docs/images/ss-survival.png)
+
+Combat and items / бой и предметы:
+
+![Combat and items](docs/images/ss-combat-items.png)
+
+Progress / прогресс:
+
+![Progress editor](docs/images/ss-progress.png)
+
+World / мир:
+
+![World and movement](docs/images/ss-world.png)
 
 ## Features / возможности
 
